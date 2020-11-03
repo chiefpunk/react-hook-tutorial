@@ -1,9 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { useForm } from './hooks/useForm';
 
-function App() {
+const  App = () => {
+  const [values, handleChange] = useForm({email:'', password:''});
+
   return (
-    <h1>Hi</h1>
+    <div>
+      <input name='email' value={values.email} onChange={handleChange} />
+      <input type="password" value={values.password} name='password' onChange={handleChange} />
+    </div>
   );
 }
 
