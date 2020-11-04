@@ -1,31 +1,24 @@
-import React, { useState, useRef, useLayoutEffect } from "react";
-import { useForm } from './hooks/useForm';
+import React, { useState, useRef, useLayoutEffect, useCallback } from "react";
 import Hello from './components/Hello'
-import { useMeasure } from "./hooks/useMeasure";
+import { CallBackExample } from './components/CallBackExample';
+import { Square } from "./components/Square";
 
 const  App = () => {
-  const [values, handleChange] = useForm({email:'', password:''});
-  const [showHello, setShowHello] = useState(true);
-  
-  const inputRef = useRef();
-  const hello = useRef(()=>{
-    console.log('hello');
-  });
-
-  const [rect, inputRef2] = useMeasure([]);
+  const [count, setCount] = useState(0);
+  const favouriteNums = [4, 17,9];
+  const increment = useCallback((n)=>{
+    setCount(c => c + n)
+  },[setCount]);
 
   return (
     <div>
-      
-      <button onClick={()=>setShowHello(!showHello)}>{showHello ? 'Hide' : 'Show'}</button>
-      {showHello && <Hello />}
-      
-      <input ref={inputRef} name='email' value={values.email} onChange={handleChange} />
-      <input ref={inputRef2} type="password" value={values.password} name='password' onChange={handleChange} />
-      <button onClick={()=>{
-        inputRef.current.focus();
-        hello.current()
-      }}>focus</button>
+      <CallBackExample increment={increment} />
+      <div>count:{count}</div>
+      {favouriteNums.map(n=>{
+        return (
+          <Square increment = {increment} n={n} key={n} />
+        )
+      })}
     </div>
   );
 }
